@@ -1,0 +1,27 @@
+import requests
+
+def create_github_repository(repo_name, access_token):
+    headers = {
+        "Authorization": f"token {access_token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    data = {
+        "name": repo_name,
+        "auto_init": True,
+        "description": "A repository for tracking medication schedules and reminders for patients."
+    }
+    response = requests.post("https://api.github.com/user/repos", headers=headers, json=data)
+    
+    if response.status_code == 201:
+        print("Congratulations! Your project repository has been successfully created on GitHub.")
+        print("Repository URL:", response.json()["html_url"])
+        print("You can start adding files, code, documentation, and collaborate with others by sharing the repository URL.")
+    else:
+        print("Failed to create repository. Status code:", response.status_code)
+        print("Response:", response.text)
+
+if __name__ == "__main__":
+    repo_name = input("Enter a name for your repository: ")
+    access_token = input("Enter your GitHub personal access token: ")
+    
+    create_github_repository(repo_name, access_token)
